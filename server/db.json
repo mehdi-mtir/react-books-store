@@ -1,0 +1,28 @@
+{
+  "books": [
+    {
+      "id": "1",
+      "title": "Harry Potter and the Philosopher's Stone",
+      "author": "J.K. Rowling",
+      "price": 20
+    },
+    {
+      "id": "2",
+      "title": "Jurassic Park",
+      "author": "Michael Crichton",
+      "price": 15
+    },
+    {
+      "id": "1d49",
+      "title": "Atomic Habits",
+      "author": "James Clear",
+      "price": 40
+    },
+    {
+      "id": "2e50",
+      "title": "test",
+      "author": "test",
+      "price": "10"
+    }
+  ]
+}

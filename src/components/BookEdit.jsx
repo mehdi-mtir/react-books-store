@@ -11,7 +11,7 @@ function BookEdit(props){
 
     const onSubmitHandler = (event) => {
         event.preventDefault();
-        //props.addBookHandler(book);
+        props.editBookHandler(book);
     }
 
     return (
