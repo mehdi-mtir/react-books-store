@@ -1,8 +1,10 @@
+import { Link } from "react-router-dom";
+
 function BookList({books}){
     //Récupérer le tableau de books et afficher les livres
     return <>
     <h1>Book List</h1>
-    <button className="btn btn-primary">Add Book</button>
+    <Link to="/book/add" className="btn btn-primary">Add Book</Link>
     <table className="table table-striped">
         <thead>
             <tr>

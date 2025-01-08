@@ -1,12 +1,11 @@
 import Book from "./model/Book"
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import BookList from './components/BookList'
-import {Navigate, Routes, Route} from 'react-router-dom'
+import {Navigate, Routes, Route, useNavigate} from 'react-router-dom'
 import BookAdd from './components/BookAdd'
+import { saveData, loadData } from "./dal/localstorage" 
 
 function App() {
-  //Créer un tableau de books (id[string], title[string], author[string], price[number])
-  //Tâche 1 : déclarer le tableau books comme variable d'état
   const [books, setBooks] = useState( [
     new Book('1', 'The Great Gatsby', 'F. Scott Fitzgerald', 7.99),
     new Book('2', 'A Farewell to Arms', 'Ernest', 9.99),
@@ -15,13 +14,34 @@ function App() {
     new Book('5', '1984', 'George Orwell', 10.99),
     new Book('6', 'Animal Farm', 'George Orwell', 8.99)
   ]);
+  
+  useEffect(() => {
+    const books = loadData('books');
+    if(books){  
+      setBooks(books);
+    }
+  }, []);
+
+  const navigate = useNavigate();
+
+  const addBook = (book) => {
+    book.id = getNewId();
+    setBooks([...books, book]);
+    saveData([...books, book]);
+    navigate('/book');
+  }
+
+  const getNewId = () => {
+    const lastId = +books[books.length - 1].id;
+    return (lastId + 1).toString();
+  }
 
   return (
     <div className="container">
       <Routes>
         <Route path="/" exact element={<Navigate to="/book" replace/>} />
         <Route path="/book" exact element={<BookList books={books} />} />
-        <Route path="/book/add" exact element={<BookAdd />} />
+        <Route path="/book/add" exact element={<BookAdd addBookHandler={addBook} />} />
       </Routes>
     </div>
   )
