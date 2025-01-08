@@ -17,12 +17,18 @@
       "title": "Atomic Habits",
       "author": "James Clear",
       "price": 40
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "name": "John Doe",
+      "email": "  [email protected] "
     },
     {
-      "id": "2e50",
-      "title": "test",
-      "author": "test",
-      "price": "10"
+      "id": "2",
+      "name": "Jane Doe",
+      "email": "  [email protected] "
     }
   ]
 }

@@ -1,10 +1,11 @@
-import Book from "./model/Book"
+//import Book from "./model/Book"
 import {useEffect, useState} from 'react'
 import BookList from './components/BookList'
 import {Navigate, Routes, Route, useNavigate} from 'react-router-dom'
 import BookAdd from './components/BookAdd'
-import { saveData } from "./dal/localstorage" 
+//import { saveData } from "./dal/localstorage" 
 import BookEdit from "./components/BookEdit"
+import axios from 'axios'
 
 const baseURL = "http://localhost:3000/books"
 
@@ -13,14 +14,15 @@ function App() {
 
   useEffect(() => {
     async function loadData(){
-      const response = await fetch(baseURL);
-      if(response.ok){
-          const books = await response.json();
-          setBooks(books);
-          return books;
-      }
+      //const response = await fetch(baseURL);
+      const response = await axios.get(baseURL);
+      console.log(response);
+      //if(response.ok){
+          //const books = await ;
+          setBooks(response.data);
+      //}
     }
-    loadData('books');
+    loadData();
   }, []);
 
   const navigate = useNavigate();
@@ -44,7 +46,7 @@ function App() {
     });*/
 
     const addBook = async (book) => {
-      const requestOptions = {  
+      /*const requestOptions = {  
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -52,13 +54,11 @@ function App() {
         body: JSON.stringify(book)
       };
 
-      const response = await fetch(baseURL, requestOptions);
+      const response = await fetch(baseURL, requestOptions);*/
+      const response = await axios.post(baseURL, book);
+      setBooks([...books, response.data]);
+      navigate('/book');
       
-      if(response.ok){
-        const book = await response.json();
-        setBooks([...books, book]);
-        navigate('/book');
-      }
 
         
     //book.id = getNewId();
@@ -71,18 +71,34 @@ function App() {
   }
 
   const deleteBook = (id) => {
+    /*const requestOptions = {  
+      method: 'DELETE'
+    }*/
     if(window.confirm('Are you sure you want to delete this book?')){
+      axios.delete(baseURL + '/' + id).then(response => {
+      //fetch(baseURL + '/' + id, requestOptions).then(response => {
       const newBooks = books.filter(book => book.id !== id);
-      setBooks(newBooks);
-      saveData(newBooks);
+      setBooks(newBooks);        
+
+      });
     }
   }
 
   const editBook = (book) => {
-    const newBooks = books.map(b => b.id === book.id ? book : b);
-    setBooks(newBooks);
-    saveData(newBooks);
-    navigate('/book');
+    /*const requestOptions = {  
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(book)
+    };
+
+    fetch(baseURL + '/' + book.id, requestOptions).then(response => {*/
+    axios.put(baseURL + '/' + book.id, book).then(response => {
+        const newBooks = books.map(b => b.id === book.id ? book : b);
+        setBooks(newBooks);
+        navigate('/book');
+    });
   }
 
   const getBookById = (id) => {
