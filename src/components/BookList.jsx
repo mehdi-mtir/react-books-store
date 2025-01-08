@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function BookList({books}){
+function BookList({books, deleteBookHandler}) {
     //Récupérer le tableau de books et afficher les livres
     return <>
     <h1>Book List</h1>
@@ -21,8 +21,8 @@ function BookList({books}){
                     <td>{book.author}</td>
                     <td>{book.price}</td>
                     <td>
-                        <button className="btn btn-primary">Edit</button>
-                        <button className="btn btn-danger">Delete</button>
+                        <Link className="btn btn-primary" to={"/book/edit/"+book.id} >Edit</Link>
+                        <button className="btn btn-danger" onClick={()=>deleteBookHandler(book.id)}>Delete</button>
                     </td>
                 </tr>
             ))}
